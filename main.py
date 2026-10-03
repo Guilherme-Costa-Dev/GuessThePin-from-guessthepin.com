@@ -8,11 +8,12 @@ from selenium.common.exceptions import TimeoutException
 
 driver = webdriver.Chrome()
 driver.get("https://www.guessthepin.com")
+start = int(input("Começar de: "))
 
 numStr = ""
-for i in range(10000):
+for i in range(start, 10000):
     try:
-        campo_input = WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.ID, "pin")))
+        campo_input = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "pin")))
         if i < 10:
             numStr = f"000{i}"
         elif i < 100:
@@ -25,6 +26,7 @@ for i in range(10000):
         campo_input.send_keys(numStr)
         campo_input.send_keys(Keys.ENTER)
         WebDriverWait(driver, 10).until(EC.staleness_of(campo_input))
+        print(numStr)
 
     except TimeoutException:
         print(f"Voce acertou o pin: {numStr}")
